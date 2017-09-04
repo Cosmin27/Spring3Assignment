@@ -16,7 +16,10 @@ import com.cgm.assignment3spring.builders.ArtefactBuilder;
 public class FriendsController {
 	@RequestMapping(value = "/friends", method = RequestMethod.GET)
 	public ModelAndView listUsers(Locale locale, Model model, HttpServletRequest request) {
-		model.addAttribute("users", ArtefactBuilder.userAccounts());
-		return new ModelAndView("friends", model.asMap());
+		if ((Boolean) request.getSession().getAttribute("logged")) {
+			model.addAttribute("users", ArtefactBuilder.userAccounts());
+			return new ModelAndView("friends", model.asMap());
+		}
+		return new ModelAndView("redirect:/", model.asMap());
 	}
 }

@@ -14,9 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class LogoutController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView logout(Locale locale, Model model, HttpServletRequest request) {
-		request.getSession().setAttribute("logged", false);
-		request.getSession().removeAttribute("userAccount");
-		//System.out.println("LOGGED OUT");
+		if ((Boolean) request.getSession().getAttribute("logged")) {
+			request.getSession().setAttribute("logged", false);
+			request.getSession().removeAttribute("userAccount");
+			// System.out.println("LOGGED OUT");
+			return new ModelAndView("redirect:/", model.asMap());
+		}
 		return new ModelAndView("redirect:/", model.asMap());
 	}
 }
